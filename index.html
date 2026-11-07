@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You are invited to Eric &amp; Jennica's Wedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Licorice&family=Old+Standard+TT&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;background:#fbf2e4;overflow:hidden}
+  .bg{position:fixed;inset:0;background:url("02_details/floral-frame-background.png") center/cover no-repeat}
+  .stage{--u:calc(min(100vw,100vh * 954 / 981) / 954);position:absolute;left:50%;top:50%;
+         width:calc(954*var(--u));height:calc(981*var(--u));transform:translate(-50%,-50%)}
+  .title{position:absolute;left:0;right:0;top:calc(197*var(--u));text-align:center;
+         font-family:'Licorice',cursive;font-size:calc(80*var(--u));line-height:calc(112*var(--u));color:#dba94e}
+  .date{position:absolute;left:0;right:0;top:calc(331*var(--u));text-align:center;
+        font-family:'Old Standard TT',serif;font-size:calc(26.67*var(--u));letter-spacing:calc(5.33*var(--u));color:#dba94e}
+  .env{position:absolute;left:calc(90*var(--u));top:calc(295*var(--u));width:calc(773*var(--u));cursor:pointer;
+       transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s;filter:drop-shadow(0 calc(10*var(--u)) calc(14*var(--u)) rgba(150,100,20,.18))}
+  .env:hover{transform:scale(1.02)}
+  .tap{position:absolute;left:0;right:0;top:calc(756*var(--u));text-align:center;
+       font-family:'Old Standard TT',serif;font-size:calc(17.5*var(--u));letter-spacing:calc(3*var(--u));color:#dba94e;
+       animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.45}}
+  .auto{position:absolute;left:0;right:0;top:calc(800*var(--u));text-align:center;
+        font-family:'Old Standard TT',serif;font-size:calc(15*var(--u));letter-spacing:calc(2*var(--u));color:#b8954f}
+  .open .env{transform:scale(1.25) translateY(-4%);opacity:0}
+  .open .title,.open .date,.open .tap,.open .auto{transition:opacity .6s;opacity:0}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="stage" id="stage">
+  <div class="title">You are invited!</div>
+  <div class="date">DECEMBER 19, 2026</div>
+  <img class="env" src="00_envelope-page/envelope.png" alt="Sunflower envelope – tap to open the invitation" id="env">
+  <div class="tap">TAP ENVELOPE TO OPEN INVITATION</div>
+  <div class="auto" id="auto">Opening automatically in <span id="secs">30</span>s</div>
+</div>
+<script>
+  var opened=false, left=30, secs=document.getElementById('secs');
+  function openInvite(){
+    if(opened) return; opened=true; clearInterval(timer);
+    document.getElementById('stage').classList.add('open');
+    setTimeout(function(){location.href='home.html'},850);
+  }
+  document.getElementById('env').addEventListener('click',openInvite);
+  var timer=setInterval(function(){
+    left--; secs.textContent=left;
+    if(left<=0) openInvite();
+  },1000);
+</script>
+</body>
+</html>
