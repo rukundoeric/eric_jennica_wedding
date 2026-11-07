@@ -1,0 +1,6 @@
+.DS_Store
+_build/*.html
+_build/*.zip
+assets/
+08_not-shown-on-page/
+**/_lower-res/
