@@ -7,7 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Licorice&family=Old+Standard+TT&display=swap" rel="stylesheet">
 <style>
+  html{-webkit-text-size-adjust:none;text-size-adjust:none}
   html,body{margin:0;height:100%;background:#fbf2e4;overflow:hidden}
+  #site{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;visibility:hidden;transition:opacity .7s;background:#fbf2e4}
+  .shown #site{opacity:1;visibility:visible}
   .bg{position:fixed;inset:0;background:url("02_details/floral-frame-background.png") center/cover no-repeat}
   .stage{--u:calc(min(100vw,100vh * 954 / 981) / 954);position:absolute;left:50%;top:50%;
          width:calc(954*var(--u));height:calc(981*var(--u));transform:translate(-50%,-50%)}
@@ -29,6 +32,7 @@
 </style>
 </head>
 <body>
+<audio id="song" src="music/wedding-song.mp3" loop preload="auto" playsinline></audio>
 <div class="bg"></div>
 <div class="stage" id="stage">
   <div class="title">You are invited!</div>
@@ -37,12 +41,20 @@
   <div class="tap">TAP ENVELOPE TO OPEN INVITATION</div>
   <div class="auto" id="auto">Opening automatically in <span id="secs">30</span>s</div>
 </div>
+<iframe id="site" src="home.html" title="Eric &amp; Jennica Wedding Invitation"></iframe>
 <script>
+  window.WeddingMusic={audio:document.getElementById('song'),userPaused:false};
   var opened=false, left=30, secs=document.getElementById('secs');
   function openInvite(){
     if(opened) return; opened=true; clearInterval(timer);
     document.getElementById('stage').classList.add('open');
-    setTimeout(function(){location.href='home.html'},850);
+    // start the song now (works because the guest just tapped); the page below keeps it playing
+    window.WeddingMusic.opened=true;
+    var p=window.WeddingMusic.audio.play(); if(p&&p.catch) p.catch(function(){});
+    setTimeout(function(){
+      document.body.classList.add('shown');
+      try{ document.title=document.getElementById('site').contentDocument.title||document.title; }catch(e){}
+    },850);
   }
   document.getElementById('env').addEventListener('click',openInvite);
   var timer=setInterval(function(){
