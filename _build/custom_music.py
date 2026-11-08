@@ -45,7 +45,7 @@ js='''<script>
   function showHint(){ if(!yt && A.paused && !state.userPaused && (!host||host.opened)) hint.classList.add('on'); }
   A.addEventListener('playing',function(){ off(); hint.classList.remove('on'); });
   A.addEventListener('pause',function(){ hint.classList.remove('on'); });
-  setTimeout(showHint,1500); if(host) host.onShown=function(){ setTimeout(showHint,1200); };
+  
   if(A.error) fallback();
   ui(); tryPlay();
 })();
