@@ -10,8 +10,8 @@ must('December 19, 2026 | 1:00 PM','December 19, 2026 | 2:30 PM',2)
 must('Chrischel Jas<br/>Rejano Chris<br/>Jasmine Rejano<br/>Kimberly Rivero<br/>Aico Jane Lacdao',
      'Chrischel Jas Rejano<br/>Chris Jasmine Rejano<br/>Aicho Jane Lacdao',2)
 # additional principal sponsors
-must('Mr. Demetrio Geraldino Jr.</span>','Mr. Demetrio Geraldino Jr.<br/>Jonald Tejoso<br/>Ptr. Leonardo Cada<br/>Roger Lonzaga</span>',2)
-must('Mrs. Celinda Geraldino</span>','Mrs. Celinda Geraldino<br/>Nelia Fernandez<br/>Luz Tejoso</span>',2)
+must('Mr. Demetrio Geraldino Jr.</span>','Mr. Demetrio Geraldino Jr.<br/>Mr. Jonald Tejoso<br/>Ptr. Leonardo Cada<br/>Mr. Roger Lonzaga</span>',2)
+must('Mrs. Celinda Geraldino</span>','Mrs. Celinda Geraldino<br/>Mrs. Nelia Fernandez<br/>Mrs. Luz Tejoso</span>',2)
 def resize(id_,f=None,w=None,x=None):
     global h
     i=h.find(f'id="{id_}"'); j=h.find('>',i); k=h.find('>',j+1)
