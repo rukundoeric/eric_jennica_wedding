@@ -47,7 +47,22 @@ h=cut_div(h,'<div class="footer-overflow-container"')
 head_add=gf+'''<meta name="viewport" content="width=device-width, initial-scale=1"><title>Eric &amp; Jennica Wedding</title>
 <style>html,body{margin:0;background:#fcdb79}</style>'''
 h=h.replace('<head>','<head><meta charset="utf-8">'+head_add,1)
-scale='''<script>(function(){var W=938;function fit(){var z=window.innerWidth/W;var c=document.querySelector('.KYQZFA');if(c)c.style.zoom=z;}window.addEventListener('resize',fit);fit();})();</script>'''
+scale='''<style>.KYQZFA.fitw{width:938px!important;min-height:0!important;transform-origin:0 0}</style>
+<script>(function(){
+  // Fit the 938px-wide design to the screen with a transform (not CSS zoom: some iPhones
+  // don't shrink the text with zoom, which made the words overflow).
+  var W=938, c, box;
+  function fit(){
+    c=c||document.querySelector('.KYQZFA'); if(!c) return;
+    box=box||c.parentNode; c.classList.add('fitw');
+    var z=window.innerWidth/W;
+    c.style.transform='scale('+z+')';
+    box.style.height=Math.ceil(c.offsetHeight*z)+'px'; box.style.overflow='hidden';
+  }
+  window.addEventListener('resize',fit); fit();
+  if(window.ResizeObserver){ new ResizeObserver(fit).observe(document.querySelector('.KYQZFA')); }
+  window.addEventListener('load',fit);
+})();</script>'''
 h=h.replace('</body>',scale+'</body>')
 open('home.html','w',encoding='utf-8').write(h)
 print('missing assets:',len(miss),list(miss)[:5]); print('size',len(h))

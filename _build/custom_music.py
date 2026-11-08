@@ -5,7 +5,7 @@ old='src="https://www.youtube-nocookie.com/embed/MwBXVgR6Es4"'
 assert h.count(old)==1
 h=h.replace(old,'id="ytmusic" src="https://www.youtube-nocookie.com/embed/MwBXVgR6Es4?playsinline=1"')
 css='''<style>
-html{-webkit-text-size-adjust:none;text-size-adjust:none}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #LBPpttj7jqPwnLvP{display:none}
 #LBPpttj7jqPwnLvP.yt-on{display:block}
 .mhint{position:fixed;left:50%;top:14px;transform:translate(-50%,-20px);opacity:0;pointer-events:none;z-index:50;background:#6d0815;color:#fcdb79;font:600 14px/1 'Noto Serif',serif;letter-spacing:1px;padding:12px 20px;border-radius:30px;box-shadow:0 6px 18px rgba(80,20,0,.35);transition:opacity .4s,transform .4s;white-space:nowrap}
