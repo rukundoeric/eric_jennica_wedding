@@ -1,9 +1,10 @@
+import re
 # On tall/narrow screens (phones) stretch the Save the Date section so it fills the first screen.
 # --x = extra height in design px (0 on wide screens); everything below moves down by --x.
 h=open('home.html',encoding='utf-8').read()
 SHIFT=['LBRkQH5fgJwKqSc9','LBBmpGZ4qr2Xk4P8','LBPv47VJJmxjD19n','LBzdVBSWjwf9BnWN','LBFdngjY211VvCD5',
        'LB0LlBKSDmRJmm3p','LBTfQgzP7HSHJhnn','LB3MZS577pfB7fTf','LBmlm2CcJWQKMXkM','LBPpttj7jqPwnLvP']
-H0='5408.47px'
+H0=re.search(r'width: 938px; height: (\d+\.47px)',h).group(1)
 assert h.count(H0)==4, h.count(H0)
 h=h.replace(H0,f'calc({H0} + var(--x, 0px))')
 css='<style>\n'+','.join('#'+i for i in SHIFT)+'{translate:0 var(--x,0px)}\n'+'''.tline{top:calc(1530px + var(--x,0px))}

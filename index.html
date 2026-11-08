@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>You are invited to Eric &amp; Jennica's Wedding</title>
+<link rel="preload" as="image" href="00_envelope-page/envelope.webp"><link rel="preload" as="image" href="02_details/floral-frame-background.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Licorice&family=Old+Standard+TT&display=swap" rel="stylesheet">
 <style>
@@ -11,7 +12,7 @@
   html,body{margin:0;height:100%;background:#fbf2e4;overflow:hidden}
   #site{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;visibility:hidden;transition:opacity .7s;background:#fbf2e4}
   .shown #site{opacity:1;visibility:visible}
-  .bg{position:fixed;inset:0;background:url("02_details/floral-frame-background.png") center/cover no-repeat}
+  .bg{position:fixed;inset:0;background:url("02_details/floral-frame-background.webp") center/cover no-repeat}
   .stage{--u:calc(min(100vw,100vh * 954 / 981) / 954);position:absolute;left:50%;top:50%;
          width:calc(954*var(--u));height:calc(981*var(--u));transform:translate(-50%,-50%)}
   .title{position:absolute;left:0;right:0;top:calc(197*var(--u));text-align:center;
@@ -37,11 +38,11 @@
 <div class="stage" id="stage">
   <div class="title">You are invited!</div>
   <div class="date">DECEMBER 19, 2026</div>
-  <img class="env" src="00_envelope-page/envelope.png" alt="Sunflower envelope – tap to open the invitation" id="env">
+  <img class="env" src="00_envelope-page/envelope.webp" alt="Sunflower envelope – tap to open the invitation" id="env">
   <div class="tap">TAP ENVELOPE TO OPEN INVITATION</div>
   <div class="auto" id="auto">Opening automatically in <span id="secs">30</span>s</div>
 </div>
-<iframe id="site" src="home.html" title="Eric &amp; Jennica Wedding Invitation"></iframe>
+<iframe id="site" src="home.html?v=b874de6b" title="Eric &amp; Jennica Wedding Invitation"></iframe>
 <script>
   window.WeddingMusic={audio:document.getElementById('song'),userPaused:false};
   var opened=false, left=30, secs=document.getElementById('secs');

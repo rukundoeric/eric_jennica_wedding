@@ -1,6 +1,6 @@
 # New "Wedding Timeline" block between the details card and The Venue
 import re
-H=520
+H=560
 h=open('home.html',encoding='utf-8').read()
 assert h.count('4888.47px')>=4
 h=h.replace('4888.47px',f'{4888.47+H:.2f}px')
@@ -8,27 +8,26 @@ i=h.find('id="LBmlm2CcJWQKMXkM"'); k=h.find('>',i)
 seg=h[i:k]; m=re.search(r'translate\(([-\d.]+)px, ([-\d.]+)px\)',seg)
 seg=seg.replace(m.group(0),f'translate({m.group(1)}px, {float(m.group(2))+H:.3f}px)')
 h=h[:i]+seg+h[k:]
-row=lambda t,e:f'<div class="tr"><div class="tt">{t}</div><div class="td"></div><div class="te">{e}</div></div>'
+row=lambda t,e:f'<div class="tt">{t}</div><div class="td"></div><div class="te">{e}</div>'
 block=('<div class="tline" id="timeline"><div class="t1">WEDDING TIMELINE</div>'
- '<div class="tdiv"><span></span><i>&#9829;</i><span></span></div><div class="trows"><div class="tbar"></div>'
+ '<div class="tdiv"><span></span><i>&#9829;</i><span></span></div><div class="tgrid">'
  +row('2:30 PM','Ceremony')+row('4:00 PM','Cocktails')+row('5:30 PM','Start of Program')+'</div></div>')
 j=h.find('<div class="DF_utQ',h.find('id="LBmlm2CcJWQKMXkM"')-200)
 j=h.rfind('<div',0,h.find('id="LBmlm2CcJWQKMXkM"'))
 h=h[:j]+block+h[j:]
 css='''<style>
-.tline{position:absolute;left:0;top:1530px;width:938px;height:520px;background:#faf0e3;color:#6d0815;text-align:center;z-index:1}
+.tline{position:absolute;left:0;top:1530px;width:938px;height:560px;background:#faf0e3;color:#6d0815;text-align:center;z-index:1}
 .tline:before{content:"";position:absolute;inset:26px 34px;border:1.5px solid #c99a4e;border-radius:4px}
 .tline:after{content:"";position:absolute;inset:34px 42px;border:1px solid rgba(201,154,78,.55);border-radius:2px}
-.tline .t1{position:absolute;left:0;right:0;top:78px;font-family:'Old Standard TT',serif;font-size:46px;letter-spacing:10px;text-shadow:2px 3px 4px rgba(90,40,0,.15)}
-.tline .tdiv{position:absolute;left:0;right:0;top:150px;display:flex;align-items:center;justify-content:center;gap:12px;color:#c99a4e;font-size:18px}
-.tline .tdiv span{width:120px;height:1.5px;background:#c99a4e}
+.tline .t1{position:absolute;left:0;right:0;top:82px;font-family:'Old Standard TT',serif;font-size:44px;line-height:1;letter-spacing:10px;padding-left:10px;text-shadow:2px 3px 4px rgba(90,40,0,.15)}
+.tline .tdiv{position:absolute;left:0;right:0;top:146px;height:20px;display:flex;align-items:center;justify-content:center;gap:12px;color:#c99a4e;font-size:16px;line-height:1}
+.tline .tdiv span{width:110px;height:1.5px;background:#c99a4e}
 .tline .tdiv i{font-style:normal}
-.tline .trows{position:absolute;left:0;right:0;top:196px}
-.tline .tbar{position:absolute;left:468px;top:30px;height:200px;width:2px;background:#c99a4e}
-.tline .tr{position:relative;height:100px;display:flex;align-items:center}
-.tline .tt{width:420px;text-align:right;font-family:'Old Standard TT',serif;font-size:30px;letter-spacing:3px}
-.tline .td{width:18px;height:18px;margin:0 30px 0 21px;border-radius:50%;background:#6d0815;box-shadow:0 0 0 5px #faf0e3,0 0 0 7px #c99a4e;position:relative;z-index:1}
-.tline .te{flex:1;text-align:left;font-family:'Great Vibes',cursive;font-size:50px;white-space:nowrap}
+.tline .tgrid{position:absolute;left:0;right:0;top:196px;display:grid;grid-template-columns:auto 20px auto;grid-auto-rows:100px;column-gap:30px;justify-content:center;align-items:center}
+.tline .tt{text-align:right;font-family:'Old Standard TT',serif;font-size:28px;line-height:1;letter-spacing:3px;white-space:nowrap}
+.tline .te{text-align:left;font-family:'Great Vibes',cursive;font-size:48px;line-height:1;padding-bottom:6px;white-space:nowrap}
+.tline .td{position:relative;width:20px;height:20px;border-radius:50%;background:#6d0815;box-shadow:0 0 0 5px #faf0e3,0 0 0 7px #c99a4e;z-index:1}
+.tline .td:not(:nth-last-child(2))::after{content:"";position:absolute;left:50%;top:calc(50% + 14px);width:2px;height:72px;margin-left:-1px;background:#c99a4e}
 </style>'''
 h=h.replace('</head>',css+'</head>',1)
 open('home.html','w',encoding='utf-8').write(h)
