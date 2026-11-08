@@ -30,11 +30,23 @@
         font-family:'Old Standard TT',serif;font-size:calc(15*var(--u));letter-spacing:calc(2*var(--u));color:#b8954f}
   .open .env{transform:scale(1.25) translateY(-4%);opacity:0}
   .open .title,.open .date,.open .tap,.open .auto{transition:opacity .6s;opacity:0}
+  .mbtn{position:fixed;top:14px;right:14px;z-index:5;display:flex;align-items:center;gap:8px;border:0;cursor:pointer;
+        background:#6d0815;color:#fcdb79;border-radius:30px;padding:9px 14px 9px 12px;font:600 13px/1 'Old Standard TT',serif;letter-spacing:1px;
+        box-shadow:0 4px 14px rgba(80,20,0,.3);-webkit-tap-highlight-color:transparent}
+  .mbtn i{font-style:normal;font-size:17px}
+  .mbtn.paused{animation:mglow 1.8s ease-in-out infinite}
+  @keyframes mglow{50%{box-shadow:0 0 0 7px rgba(219,169,78,.35),0 4px 14px rgba(80,20,0,.3)}}
+  .mbtn.playing span{display:none}
+  .mbtn.playing{padding:9px 12px}
+  .mbtn.playing i{animation:spin 3s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .shown .mbtn{display:none}
 </style>
 </head>
 <body>
 <audio id="song" src="music/wedding-song.mp3" loop preload="auto" playsinline></audio>
 <div class="bg"></div>
+<button class="mbtn paused" id="mbtn" aria-label="Play or pause the music"><i>&#9835;</i><span>TAP FOR MUSIC</span></button>
 <div class="stage" id="stage">
   <div class="title">You are invited!</div>
   <div class="date">DECEMBER 19, 2026</div>
@@ -42,7 +54,7 @@
   <div class="tap">TAP ENVELOPE TO OPEN INVITATION</div>
   <div class="auto" id="auto">Opening automatically in <span id="secs">30</span>s</div>
 </div>
-<iframe id="site" src="home.html?v=b874de6b" title="Eric &amp; Jennica Wedding Invitation"></iframe>
+<iframe id="site" src="home.html?v=4c60a1d2" title="Eric &amp; Jennica Wedding Invitation"></iframe>
 <script>
   window.WeddingMusic={audio:document.getElementById('song'),userPaused:false};
   var opened=false, left=30, secs=document.getElementById('secs');
@@ -51,9 +63,10 @@
     document.getElementById('stage').classList.add('open');
     // start the song now (works because the guest just tapped); the page below keeps it playing
     window.WeddingMusic.opened=true;
-    var p=window.WeddingMusic.audio.play(); if(p&&p.catch) p.catch(function(){});
+    if(!window.WeddingMusic.userPaused){ var p=window.WeddingMusic.audio.play(); if(p&&p.catch) p.catch(function(){}); }
     setTimeout(function(){
       document.body.classList.add('shown');
+      if(window.WeddingMusic.onShown) window.WeddingMusic.onShown();
       try{ document.title=document.getElementById('site').contentDocument.title||document.title; }catch(e){}
     },850);
   }
@@ -62,6 +75,22 @@
     left--; secs.textContent=left;
     if(left<=0) openInvite();
   },1000);
+  // ---- music on the envelope page ----
+  (function(){
+    var A=window.WeddingMusic.audio, b=document.getElementById('mbtn');
+    function ui(){ b.className='mbtn '+(A.paused?'paused':'playing'); }
+    A.addEventListener('play',ui); A.addEventListener('pause',ui);
+    function play(){ if(window.WeddingMusic.userPaused||!A.paused) return; var p=A.play(); if(p&&p.catch) p.catch(function(){}); }
+    b.addEventListener('click',function(e){ e.stopPropagation();
+      if(A.paused){ window.WeddingMusic.userPaused=false; A.play().catch(function(){}); }
+      else { window.WeddingMusic.userPaused=true; A.pause(); } });
+    // start straight away where the browser allows it, otherwise on the very first touch anywhere
+    play();
+    var evs=['touchend','click','keydown'];
+    function kick(e){ if(e.target===b||b.contains(e.target)) return; play(); }
+    evs.forEach(function(t){ document.addEventListener(t,kick,true); });
+    A.addEventListener('playing',function(){ evs.forEach(function(t){ document.removeEventListener(t,kick,true); }); });
+  })();
 </script>
 </body>
 </html>

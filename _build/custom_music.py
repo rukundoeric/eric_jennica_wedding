@@ -8,6 +8,8 @@ css='''<style>
 html{-webkit-text-size-adjust:none;text-size-adjust:none}
 #LBPpttj7jqPwnLvP{display:none}
 #LBPpttj7jqPwnLvP.yt-on{display:block}
+.mhint{position:fixed;left:50%;top:14px;transform:translate(-50%,-20px);opacity:0;pointer-events:none;z-index:50;background:#6d0815;color:#fcdb79;font:600 14px/1 'Noto Serif',serif;letter-spacing:1px;padding:12px 20px;border-radius:30px;box-shadow:0 6px 18px rgba(80,20,0,.35);transition:opacity .4s,transform .4s;white-space:nowrap}
+.mhint.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #LBBmpGZ4qr2Xk4P8{cursor:pointer;-webkit-tap-highlight-color:transparent}
 #LBBmpGZ4qr2Xk4P8.playing{animation:mpulse 2.4s ease-in-out infinite}
 @keyframes mpulse{50%{filter:drop-shadow(0 0 10px rgba(219,169,78,.9))}}
@@ -38,7 +40,12 @@ js='''<script>
   function kick(e){ if(btn&&btn.contains(e.target)) return; tryPlay(); }
   function off(){ evs.forEach(function(t){document.removeEventListener(t,kick,true);}); }
   evs.forEach(function(t){document.addEventListener(t,kick,true);});
-  A.addEventListener('playing',function(){ off(); });
+  var hint=document.createElement('div'); hint.className='mhint'; hint.innerHTML='&#9835;&nbsp; Tap anywhere to play the music'; document.body.appendChild(hint);
+  hint.addEventListener('click',function(){ tryPlay(); });
+  function showHint(){ if(!yt && A.paused && !state.userPaused && (!host||host.opened)) hint.classList.add('on'); }
+  A.addEventListener('playing',function(){ off(); hint.classList.remove('on'); });
+  A.addEventListener('pause',function(){ hint.classList.remove('on'); });
+  setTimeout(showHint,1500); if(host) host.onShown=function(){ setTimeout(showHint,1200); };
   if(A.error) fallback();
   ui(); tryPlay();
 })();

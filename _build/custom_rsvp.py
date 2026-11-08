@@ -20,10 +20,11 @@ for el in sec.find_all(style=True):
 block=BeautifulSoup(f'''<div class="rsvp" id="rsvp">
  <div class="r1">RSVP</div>
  <div class="r2">GUEST LIST CONFIRMATION</div>
- <p class="r3">We have reserved a seat for you and would love to celebrate with you.<br>
- Please confirm whether you will attend using the short form below.</p>
- <a class="rbtn" href="{FORM}" target="_blank" rel="noopener"><span>CONFIRM ATTENDANCE</span></a>
- <p class="r4">It only takes a minute &#8212; thank you!</p>
+ <p class="r3">Please let us know if you can join us.<br>
+ <b>Tap the button below</b> to open the short confirmation form.</p>
+ <div class="rarrow" aria-hidden="true">&#9660;</div>
+ <a class="rbtn" href="{FORM}" target="_blank" rel="noopener"><span>CONFIRM ATTENDANCE &#8594;</span></a>
+ <p class="r4">Opens a short form &#183; takes less than a minute &#183; thank you!</p>
 </div>''','html.parser')
 faq=s.find(id='LB5jGlb754v7PwS6')
 faq.insert_after(block)
@@ -31,11 +32,15 @@ css=s.new_tag('style'); css.string='''
 .rsvp{position:absolute;left:0;top:1315px;width:938px;height:625px;background:url("02_details/floral-frame-background.png") 0 0/100% 100% no-repeat;text-align:center;color:#6d0815}
 .rsvp .r1{position:absolute;left:0;right:0;top:118px;font-family:'Old Standard TT',serif;font-size:62px;letter-spacing:14px;text-shadow:2px 3px 4px rgba(90,40,0,.15)}
 .rsvp .r2{position:absolute;left:0;right:0;top:200px;font-family:'Noto Serif',serif;font-size:22px;letter-spacing:6px}
-.rsvp .r3{position:absolute;left:99px;right:99px;top:258px;margin:0;font-family:'Noto Serif',serif;font-style:italic;font-size:20px;line-height:34px}
-.rsvp .rbtn{position:absolute;left:50%;top:352px;width:470px;height:87px;margin-left:-235px;background:url("06_attire-guide/image_07.png") center/100% 100% no-repeat;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform .2s}
-.rsvp .rbtn:hover{transform:scale(1.04)}
-.rsvp .rbtn span{font-family:'Noto Serif',serif;font-size:24px;letter-spacing:3px;color:#fbefd6;text-shadow:1px 2px 2px rgba(80,30,0,.45)}
-.rsvp .r4{position:absolute;left:0;right:0;top:452px;margin:0;font-family:'Noto Serif',serif;font-style:italic;font-size:18px;opacity:.85}
+.rsvp .r3{position:absolute;left:99px;right:99px;top:252px;margin:0;font-family:'Noto Serif',serif;font-style:italic;font-size:22px;line-height:34px}
+.rsvp .r3 b{font-style:normal;font-weight:700;text-decoration:underline;text-decoration-color:#c99a4e;text-underline-offset:5px}
+.rsvp .rarrow{position:absolute;left:0;right:0;top:330px;font-size:20px;line-height:1;color:#c99a4e;animation:rbounce 1.4s ease-in-out infinite}
+@keyframes rbounce{50%{transform:translateY(7px)}}
+.rsvp .rbtn{position:absolute;left:50%;top:360px;width:560px;height:100px;margin-left:-280px;background:url("06_attire-guide/image_07.png") center/100% 100% no-repeat;display:flex;align-items:center;justify-content:center;text-decoration:none;animation:rpulse 2s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+@keyframes rpulse{0%,100%{transform:scale(1);filter:drop-shadow(0 4px 6px rgba(110,60,10,.25))}50%{transform:scale(1.05);filter:drop-shadow(0 6px 16px rgba(201,154,78,.85))}}
+.rsvp .rbtn:active{transform:scale(.97)}
+.rsvp .rbtn span{font-family:'Noto Serif',serif;font-weight:700;font-size:26px;letter-spacing:3px;color:#fff8e8;text-shadow:1px 2px 2px rgba(80,30,0,.5);padding-bottom:4px}
+.rsvp .r4{position:absolute;left:0;right:0;top:478px;margin:0;font-family:'Noto Serif',serif;font-style:italic;font-size:18px;opacity:.85}
 '''
 s.head.append(css)
 open('home.html','w',encoding='utf-8').write(str(s))
